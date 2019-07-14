@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace Fotos7000
+namespace FerrisPDT
 {
     public partial class Form1 : Form
     {
@@ -31,6 +31,7 @@ namespace Fotos7000
                 List<DateFile> dateFiles = GetDateFiles(filepaths);
                 foreach(var df in dateFiles)
                 {
+                    if (df.DateTaken == DateTime.MinValue) continue;
                     string datename = GetDateNamePath(df.FilePath, df.DateTaken);
                     if (File.Exists(datename)) datename = NextAvailableFilename(datename);
                     File.Move(df.FilePath, datename);
@@ -111,7 +112,7 @@ namespace Fotos7000
                 catch (Exception ex)
                 {
                     Console.WriteLine(path + Environment.NewLine + ex.ToString());
-                    return DateTime.Now;
+                    return DateTime.MinValue;
                 }
                 
             }
